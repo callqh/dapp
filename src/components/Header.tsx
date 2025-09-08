@@ -27,6 +27,7 @@ const Header: React.FC = () => {
         {
           tabs.map(tab =>
             <Button
+              key={tab.title}
               variant='link'
               className='mr-3'
               onClick={()=>handleClick(tab.url)}>{ tab.title }

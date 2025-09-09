@@ -2,6 +2,7 @@
 import { LoadingText } from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Wagmi from "@/components/Wagmi";
 import { useState } from "react";
 import { Address } from "viem";
 import { useAccount, useBalance } from "wagmi";
@@ -48,6 +49,8 @@ export default ()=>{
             <LoadingText label="Value" loading={isLoading2} text={balanceData2?.value} />
           </div>
         </div>
+
+        <Wagmi/>
       </div>
     </div>
   );

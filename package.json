@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start"
+    "start": "next start",
+    "lint": "biome check --fix"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -24,6 +25,7 @@
     "wagmi": "^2.16.9"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.2.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

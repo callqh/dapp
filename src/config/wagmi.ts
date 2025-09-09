@@ -1,6 +1,5 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { arbitrum, base, mainnet, megaethTestnet, optimism, polygon, sepolia } from 'wagmi/chains'
-
+import { arbitrum, base, mainnet, megaethTestnet, optimism, polygon, sepolia } from 'wagmi/chains';
 
 export const config = getDefaultConfig({
   appName: 'My RainbowKit App',

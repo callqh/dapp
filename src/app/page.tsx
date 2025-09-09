@@ -1,9 +1,5 @@
-"use client";
+'use client';
 
-export default  () => {
-  return (
-    <>
-      This page is empty
-    </>
-  );
+export default () => {
+  return <>This page is empty</>;
 };

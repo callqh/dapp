@@ -1,23 +1,21 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Providers } from "./providers";
-import Header from "@/components/Header";
-import { Card, CardContent } from "@/components/ui/card";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import Header from '@/components/Header';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "first dapp",
-  description: "dapp",
+  title: 'First Dapp',
+  description: 'dapp',
 };
 
 export default function RootLayout({
@@ -26,20 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full `}
-      >
-        <Providers>
-          <Header/>
-          <div className="flex justify-center mt-3">
-          <Card>
-            <CardContent>
-              {children}
-            </CardContent>
-          </Card>
-          </div>
-        </Providers>
+    <html lang='en'>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full p-3`}>
+        <Header />
+        {children}
       </body>
     </html>
   );

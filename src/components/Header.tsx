@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 const tabs = [
   {
     title: 'RainbowKit',
-    url: '/rainbowkit',
+    url: '/',
   },
   {
     title: 'Wagmi',
@@ -30,7 +30,7 @@ const Header: React.FC = () => {
           <Button
             key={tab.title}
             variant='link'
-            className={`mr-3 ${tab.url.includes(pathname) ? 'text-blue-500' : ''}`}
+            className={`mr-3 ${tab.url === pathname ? 'text-blue-500' : ''}`}
             onClick={() => handleClick(tab.url)}
           >
             {tab.title}

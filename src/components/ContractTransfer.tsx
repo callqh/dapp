@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useId } from "react";
-import { useAccount,  useWaitForTransactionReceipt,  useWriteContract } from "wagmi";
+import { useAccount,  useReadContract,  useWaitForTransactionReceipt,  useWriteContract } from "wagmi";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { CONTRACT_ADDRESS } from "./ContractDebugger";
 import { abi } from './abi'
-import { parseEther } from "viem";
+import { formatEther, parseEther } from "viem";
 
 export default function TransferForm() {
   const [toAddress, setToAddress] = useState("");
@@ -22,6 +22,18 @@ export default function TransferForm() {
     hash: txHash,
   })
   
+  // 查询任意地址的代币余额
+  const { data: targetBalance } = useReadContract({
+    abi,
+    address: CONTRACT_ADDRESS,
+    functionName: 'balanceOf',
+    args: [toAddress as `0x${string}`],
+    query:{
+      enabled: !!txHash && !!toAddress
+    }
+  });
+  console.log("📌 >>> TransferForm >>> targetBalance:", targetBalance)
+
   const handleTransfer = async () => { 
     writeContract({
       abi,
@@ -44,13 +56,15 @@ export default function TransferForm() {
     );
   }
 
+
   return (
     <div className="mt-4 p-4 border rounded-lg bg-blue-50">
-      <h3 className="font-bold text-lg mb-3">💸 转账功能</h3>
+      <h3 className="font-bold text-lg mb-3">💸 合约转账功能</h3>
        {isConfirmed && (
           <div className="mt-3 p-3 bg-green-100 rounded">
             <p className="text-sm text-green-700">
               ✅ 转账成功！
+              {targetBalance&&<span>目标账户余额：{formatEther(targetBalance)}</span>}
             </p>
           </div>
         )}

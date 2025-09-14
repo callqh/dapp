@@ -12,6 +12,10 @@ const tabs = [
     title: 'Wagmi',
     url: '/wagmi',
   },
+  {
+    title: 'Viem',
+    url: '/viem',
+  }
 ];
 
 const Header: React.FC = () => {

@@ -147,16 +147,12 @@ export default function ViemWalletClient() {
 
   async function getContractBalance(){
    const balance = await contract.read.balanceOf([client?.account?.address as `0x${string}`])
-   console.log("👾👾👾 == ViemWalletClient == balance:", balance)
    setContractBalance(formatEther(balance))
   }
 
   async function transferToContract(){
       const hash = await contract.write.transfer([contractToAddress,parseEther(contractAmount)])
-      console.log("👾👾👾 == ViemWalletClient == hash:", hash)
   }
-
-  console.log("👾👾👾 == ViemWalletClient == contract:", contract)
 
   return (
     <div className="mx-auto p-6 space-y-6 grid grid-cols-2 gap-1">
@@ -264,7 +260,6 @@ export default function ViemWalletClient() {
         </Card>
       </div>
       <div>
-
         {/* 合约余额显示卡片 */}
         <Card>
           <CardHeader>

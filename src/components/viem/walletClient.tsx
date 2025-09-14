@@ -1,5 +1,5 @@
 'use client';
-import { createPublicClient, createWalletClient, formatEther, getContract, http, parseEther } from 'viem';
+import { createPublicClient, createWalletClient, custom, formatEther, getContract, http, parseEther } from 'viem';
 import { mainnet, megaethTestnet } from 'viem/chains';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -50,7 +50,8 @@ export default function ViemWalletClient() {
     const walletClient = createWalletClient({
       account: address as `0x${string}`,
       chain: CHAIN,
-      transport: http(),
+      // transport: http(),
+      transport: custom(window.ethereum)
     });
     await getBalance(walletClient);
     setClient(() => walletClient);

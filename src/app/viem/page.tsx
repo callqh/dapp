@@ -1,11 +1,10 @@
-'use client'
 import  ViemWallet  from "@/components/viem/walletClient";
 
 export default function Viem(){
   
   return (
     <div className="flex flex-col items-center justify-center">
-      <ViemWallet></ViemWallet>
+      <ViemWallet/>
     </div>
   );
 }

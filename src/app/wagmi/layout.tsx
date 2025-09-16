@@ -5,14 +5,14 @@ import { mainnet, megaethTestnet } from 'wagmi/chains';
 
 const queryClient = new QueryClient();
 
- const config = createConfig({
-    chains: [mainnet, megaethTestnet],
-    transports: {
-      [mainnet.id]: http(mainnet.rpcUrls.default.http[0]),
-      [megaethTestnet.id]: http(megaethTestnet.rpcUrls.default.http[0]),
-    },
-    ssr: true,
-  });
+const config = createConfig({
+  chains: [mainnet, megaethTestnet],
+  transports: {
+    [mainnet.id]: http(mainnet.rpcUrls.default.http[0]),
+    [megaethTestnet.id]: http(megaethTestnet.rpcUrls.default.http[0]),
+  },
+  ssr: true,
+});
 
 
 export default function Layout({
@@ -20,12 +20,11 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
   return (
-    <WagmiProvider config={config}> 
+    <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-          {children}
+        {children}
       </QueryClientProvider>
-     </WagmiProvider>
+    </WagmiProvider>
   );
 }

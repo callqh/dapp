@@ -5,7 +5,7 @@ import { useAccount,  useReadContract,  useWaitForTransactionReceipt,  useWriteC
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CONTRACT_ADDRESS } from "./ContractDebugger";
-import { abi } from '@/utils/abi'
+import { abi } from '@/lib/abi'
 import { formatEther, parseEther } from "viem";
 
 export default function TransferForm() {
@@ -32,7 +32,6 @@ export default function TransferForm() {
       enabled: !!txHash && !!toAddress
     }
   });
-  console.log("📌 >>> TransferForm >>> targetBalance:", targetBalance)
 
   const handleTransfer = async () => { 
     writeContract({

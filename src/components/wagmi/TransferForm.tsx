@@ -1,46 +1,48 @@
 'use client';
 
 import { useState, useId } from "react";
-import { useAccount,  useReadContract,  useWaitForTransactionReceipt,  useWriteContract } from "wagmi";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { CONTRACT_ADDRESS } from "./ContractDebugger";
-import { abi } from './abi'
-import { formatEther, parseEther } from "viem";
+import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from "wagmi";
+import { parseEther, isAddress } from "viem";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export default function TransferForm() {
   const [toAddress, setToAddress] = useState("");
   const [amount, setAmount] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   
   const toAddressId = useId();
   const amountId = useId();
 
   const account = useAccount();
-  const { writeContract, data:txHash, isPending, error } = useWriteContract();
-
-  const { isSuccess: isConfirmed } = useWaitForTransactionReceipt({
-    hash: txHash,
-  })
+  const { sendTransaction, data: txHash, isPending, error } = useSendTransaction();
   
-  // 查询任意地址的代币余额
-  const { data: targetBalance } = useReadContract({
-    abi,
-    address: CONTRACT_ADDRESS,
-    functionName: 'balanceOf',
-    args: [toAddress as `0x${string}`],
-    query:{
-      enabled: !!txHash && !!toAddress
-    }
+  const { isLoading: isConfirming, isSuccess: isConfirmed, error: txError } = useWaitForTransactionReceipt({
+    hash: txHash,
   });
-  console.log("📌 >>> TransferForm >>> targetBalance:", targetBalance)
 
-  const handleTransfer = async () => { 
-    writeContract({
-      abi,
-      address: CONTRACT_ADDRESS,
-      functionName: "transfer",
-      args: [toAddress as `0x${string}`, parseEther(amount)],
-    });
+  const handleTransfer = async () => {
+    if (!isAddress(toAddress)) {
+      alert("请输入有效的地址");
+      return;
+    }
+
+    if (!amount || Number(amount) <= 0) {
+      alert("请输入有效的转账金额");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      await sendTransaction({
+        to: toAddress as `0x${string}`,
+        value: parseEther(amount),
+      });
+    } catch (err) {
+      console.error("转账失败:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const resetForm = () => {
@@ -56,26 +58,10 @@ export default function TransferForm() {
     );
   }
 
-
   return (
     <div className="mt-4 p-4 border rounded-lg bg-blue-50">
-      <h3 className="font-bold text-lg mb-3">💸 合约转账功能</h3>
-       {isConfirmed && (
-          <div className="mt-3 p-3 bg-green-100 rounded">
-            <p className="text-sm text-green-700">
-              ✅ 转账成功！
-              {targetBalance&&<span>目标账户余额：{formatEther(targetBalance)}</span>}
-            </p>
-          </div>
-        )}
-
-        {(error) && (
-          <div className="mt-3 p-3 bg-red-100 rounded">
-            <p className="text-sm text-red-700">
-              ❌ 转账失败: {(error)?.message}
-            </p>
-          </div>
-        )}
+      <h3 className="font-bold text-lg mb-3">💸 转账功能</h3>
+      
       <div className="space-y-4">
         {/* 接收地址输入 */}
         <div>
@@ -110,15 +96,20 @@ export default function TransferForm() {
         <div className="flex gap-2">
           <Button
             onClick={handleTransfer}
-            disabled={isPending}
+            disabled={isPending || isLoading || isConfirming || !toAddress || !amount}
             className="flex-1"
           >
-            转账
+            {isPending || isLoading
+              ? "发送中..."
+              : isConfirming
+              ? "确认中..."
+              : "发送转账"}
           </Button>
           
           <Button
             variant="outline"
             onClick={resetForm}
+            disabled={isPending || isLoading || isConfirming}
           >
             重置
           </Button>
@@ -132,6 +123,30 @@ export default function TransferForm() {
             </p>
             <p className="text-xs font-mono break-all text-blue-700">
               {txHash}
+            </p>
+          </div>
+        )}
+
+        {isConfirming && (
+          <div className="mt-3 p-3 bg-yellow-100 rounded">
+            <p className="text-sm text-yellow-700">
+              ⏳ 等待交易确认...
+            </p>
+          </div>
+        )}
+
+        {isConfirmed && (
+          <div className="mt-3 p-3 bg-green-100 rounded">
+            <p className="text-sm text-green-700">
+              ✅ 转账成功！
+            </p>
+          </div>
+        )}
+
+        {(error || txError) && (
+          <div className="mt-3 p-3 bg-red-100 rounded">
+            <p className="text-sm text-red-700">
+              ❌ 转账失败: {(error || txError)?.message}
             </p>
           </div>
         )}

@@ -2,7 +2,7 @@
 
 import { useAccount, useReadContract } from "wagmi";
 import { megaethTestnet } from "wagmi/chains";
-import {abi} from './abi';
+import {abi} from '@/utils/abi';
 import { useState } from "react";
 import { formatEther } from "viem";
 

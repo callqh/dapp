@@ -1,5 +1,4 @@
-import WagmiKit from '@/components/WagmiCore';
-import WagmiHooks from '@/components/WagmiHooks';
+import WagmiHooks from '@/components/wagmi/WagmiHooks';
 
 export default () => {
 

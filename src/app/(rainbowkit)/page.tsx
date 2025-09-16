@@ -1,7 +1,7 @@
 'use client';
 import { ConnectButton, useAddRecentTransaction } from '@rainbow-me/rainbowkit';
 import { useState } from 'react';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -10,13 +10,6 @@ export default () => {
   const account = useAccount();
 
   const addRecentTranscation = useAddRecentTransaction();
-
-  // const {data: balanceData,isLoading} = useBalance({
-  //   // address: account.address,
-  //   query: {
-  //     enabled: !!account.address,
-  //   },
-  // });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTransactionHash(e.target.value);

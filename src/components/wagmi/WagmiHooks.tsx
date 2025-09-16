@@ -1,8 +1,7 @@
 'use client';
-import { megaethTestnet } from "wagmi/chains";
-import { injected, useAccount, useConnect, useReadContract } from "wagmi";
-import { Button } from "./ui/button";
-import AccountInfo from "./AccountInfo";
+import { injected, useAccount, useConnect } from "wagmi";
+import { Button } from "../ui/button";
+import AccountInfo from "../AccountInfo";
 import TransferForm from "./TransferForm";
 import ContractDebugger from "./ContractDebugger";
 import ContractTransfer from "./ContractTransfer";

@@ -2,7 +2,7 @@
 import { createConfig, http, injected } from 'wagmi';
 import { connect, getBalance } from 'wagmi/actions';
 import { mainnet, megaethTestnet } from 'wagmi/chains';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 

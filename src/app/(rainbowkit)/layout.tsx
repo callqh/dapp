@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Providers } from '../providers';
+import { Providers } from './providers';
 
 export default function RootLayout({
   children,

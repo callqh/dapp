@@ -5,8 +5,8 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Input } from '../ui/input';
 import { useEffect, useState, useId } from 'react';
-import { abi } from '../abi';
-import { CONTRACT_ADDRESS } from '../ContractDebugger';
+import { abi } from '../../utils/abi';
+import { CONTRACT_ADDRESS } from '@/components/wagmi/ContractDebugger';
 
 
 const CHAIN = megaethTestnet;
@@ -152,7 +152,7 @@ export default function ViemWalletClient() {
   }
 
   async function transferToContract(){
-      const hash = await contract.write.transfer([contractToAddress,parseEther(contractAmount)])
+      // const hash = await contract.write.transfer([contractToAddress,parseEther(contractAmount)])
   }
 
   return (

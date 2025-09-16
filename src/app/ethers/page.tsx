@@ -1,7 +1,7 @@
 'use client';
 import { useContext, useEffect, useState } from "react"
 import { Context } from "./layout"
-import EthersTransfer from "@/components/EthersTransfer"
+import EthersTransfer from "@/components/ethers/EthersTransfer"
 import { parseUnits } from "ethers";
 
 export default function EthersPage() {

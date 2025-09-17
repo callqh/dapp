@@ -1,4 +1,5 @@
-import  ViemWallet  from "@/components/viem/walletClient";
+'use client'
+import  ViemWallet  from "@/components/viem";
 
 export default function Viem(){
   

@@ -6,12 +6,11 @@ import {abi} from '@/lib/abi';
 import { useState } from "react";
 import { formatEther } from "viem";
 
-export const CONTRACT_ADDRESS = '0x10Cbb82ec61E8FA0766b3976092878EfEd55C516' as `0x${string}`;
-
 export default function ContractDebugger() {
-  const [customAddress, ] = useState<string>(CONTRACT_ADDRESS);
+  const [customAddress, ] = useState<string>(
+    process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!
+  );
   const account = useAccount();
-
 
   // 读取合约余额函数
   const { data, error, isLoading } = useReadContract({

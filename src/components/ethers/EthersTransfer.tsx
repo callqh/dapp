@@ -3,35 +3,38 @@
 import { useState, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import ContractTransfer from './ContractTransfer';
+
+import type { TransactionReceipt } from 'ethers';
 
 interface EthersTransferProps {
-  onGetBalance: (address: string) => void;
+  onGetBalance: (address?: string) => void;
   onTransfer: (to: string, amount: string) => void;
+  onContractTransfer?: (contractAddress: string, to: string, amount: string) => void;
   balance: string;
   currentAddress?: string;
   isListening: boolean;
-  transferEvents: Record<string, any>;
+  transferEvents: TransactionReceipt | null;
+  contractBalance?: string;
+  onGetContractBalance?: (contractAddress: string) => void;
 }
 
 export default function EthersTransfer({
   onGetBalance,
   onTransfer,
+  onContractTransfer,
   balance,
   isListening,
   transferEvents,
-  currentAddress
+  currentAddress,
+  contractBalance,
+  onGetContractBalance
 }: EthersTransferProps) {
-  const [balanceAddress, setBalanceAddress] = useState('');
   const [transferTo, setTransferTo] = useState('');
   const [transferAmount, setTransferAmount] = useState('');
+  
   const transferToId = useId();
   const transferAmountId = useId();
-
-  const handleGetBalance = () => {
-    if (balanceAddress.trim()) {
-      onGetBalance(balanceAddress.trim());
-    }
-  };
 
   const handleTransfer = () => {
     if (transferTo.trim() && transferAmount.trim()) {
@@ -47,13 +50,7 @@ export default function EthersTransfer({
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold mb-4">查询账户余额</h2>
         <div className="flex flex-col sm:flex-row gap-4">
-          <Input
-            placeholder="输入钱包地址 (0x...)"
-            value={balanceAddress}
-            onChange={(e) => setBalanceAddress(e.target.value)}
-            className="flex-1"
-          />
-          <Button onClick={handleGetBalance} className="sm:w-auto w-full">
+          <Button onClick={()=>onGetBalance()} className="sm:w-auto w-full">
             查询余额
           </Button>
         </div>
@@ -102,6 +99,17 @@ export default function EthersTransfer({
         </div>
       </div>
 
+      {/* 合约转账组件 */}
+      {onContractTransfer && onGetContractBalance && (
+        <ContractTransfer
+          onContractTransfer={onContractTransfer}
+          onGetContractBalance={onGetContractBalance}
+          contractBalance={contractBalance}
+          currentAddress={currentAddress}
+          isListening={isListening}
+        />
+      )}
+
       {/* 事件监听区域 */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <div className="flex items-center justify-between mb-4">
@@ -110,7 +118,21 @@ export default function EthersTransfer({
 
         {/* 事件列表 */}
         <div className="space-y-2 max-h-96 overflow-y-auto">
-          {isListening ? 'waitting for transfer receipt...' : JSON.stringify(transferEvents)}
+          {isListening ? (
+            <p className="text-gray-600">等待转账回执...</p>
+          ) : transferEvents ? (
+            <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-md">
+              <p className="font-semibold text-green-800 dark:text-green-200">转账成功!</p>
+              <div className="mt-2 text-sm space-y-1">
+                <p><span className="font-medium">交易哈希:</span> {transferEvents.hash}</p>
+                <p><span className="font-medium">区块号:</span> {transferEvents.blockNumber}</p>
+                <p><span className="font-medium">Gas 使用:</span> {transferEvents.gasUsed.toString()}</p>
+                <p><span className="font-medium">状态:</span> {transferEvents.status === 1 ? '成功' : '失败'}</p>
+              </div>
+            </div>
+          ) : (
+            <p className="text-gray-500">暂无转账记录</p>
+          )}
         </div>
       </div>
     </div>

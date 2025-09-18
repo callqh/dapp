@@ -4,9 +4,9 @@ import { useState, useId } from "react";
 import { useAccount,  useReadContract,  useWaitForTransactionReceipt,  useWriteContract } from "wagmi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CONTRACT_ADDRESS } from "./ContractDebugger";
 import { abi } from '@/lib/abi'
 import { formatEther, parseEther } from "viem";
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`;
 
 export default function TransferForm() {
   const [toAddress, setToAddress] = useState("");

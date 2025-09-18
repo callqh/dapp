@@ -6,10 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Input } from '../ui/input';
 import { useState, useId, useEffect } from 'react';
 import { abi } from '../../lib/abi';
-import { CONTRACT_ADDRESS } from '@/components/wagmi/ContractDebugger';
 import useMultiWallet from '@/hooks/useMultiWallet';
 
 const CHAIN = megaethTestnet;
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`;
 
 export default function ViemWalletClient() {
   const [client, setClient] = useState<ReturnType<typeof createWalletClient>>();

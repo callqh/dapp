@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "build:ignore-ts": "NEXT_TYPESCRIPT_IGNORE_BUILD_ERRORS=true next build --turbopack",
     "start": "next start",
     "lint": "biome check --fix"
   },
